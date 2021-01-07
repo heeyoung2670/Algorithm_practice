@@ -1,0 +1,31 @@
+n, m, k = map(int, input().split())
+data = list(map(int, input().split()))
+
+data.sort(reverse=True)
+res = 0
+k_copy = k
+
+for _ in range(m):
+    if (k_copy == 0):
+        res += data[1]
+        k_copy = k
+    else:
+        res += data[0]
+        k_copy -= 1
+
+print(res)
+
+------------------------- other code ---------------------------
+
+# 반복되는 수열로 문제 해결
+n, m, k = map(int, input().split())
+data = list(map(int, input().split()))
+
+data.sort(reverse=True)
+
+count = int(m/(k+1))*k + m%(k+1) # 가장 큰 수가 더해지는 횟수 계산
+
+result = 0
+result = count*data[0] + (m-count)*data[1]
+
+print(result)
