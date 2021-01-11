@@ -1,0 +1,47 @@
+# 게임 개발
+n, m = map(int, input().split())
+d = [[0]* m for _ in range(n)] # 방문한 칸 저장을 위한 NxM zero matrix
+x, y, direction = map(int, input().split())
+d[x][y] = 1 # 현재 위치 방문 처리
+
+lines = []
+for _ in range(m):
+    line = list(map(int, input().split()))
+    lines.append(line)
+
+dx = [-1, 0, 1, 0] # 북, 동, 남, 서
+dy = [0, 1, 0, -1]
+
+def turn_left():
+    global direction # 북:0, 동:1, 남:2, 서:3
+    direction -= 1
+    if direction == -1:
+        direction = 3
+
+cnt = 1
+turn_cnt = 0
+while True:
+    turn_left()
+    nx = x + dx[direction]
+    ny = y + dy[direction]
+    # 회전한 이후 정면에 가보지 않은 칸이 있고, 그 칸이 육지인 경우
+    if d[nx][ny] == 0 and lines[nx][ny] == 0:
+        d[nx][ny] = 1
+        x = nx
+        y = ny
+        cnt += 1
+        turn_cnt = 0
+        continue
+    else:
+        turn_cnt += 1
+    # 네 방향 모두 갈 수 없는 경우
+    if turn_cnt == 4:
+        nx = x - dx[direction]
+        ny = y - dy[direction]
+        if lines[nx][ny] == 0:
+            x = nx
+            y = ny
+        else:
+            break
+        turn_cnt = 0
+print(cnt)
